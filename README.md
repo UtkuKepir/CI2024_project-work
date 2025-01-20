@@ -1,6 +1,21 @@
 **Methodology**
 
-Steady state model is used for population management model instead of generational model
+I used only numpy library. Firstly, I defined a Node class. In this class, I implemented my tree structure to represent the data. I initialized my Node class, with value, left and right. left and right represent values(x[0], x[1]…., and 1,2,3 …) and value represents operator like sin. Left is required for single-value operators like sin(left). On the other hand, right and left are required for double value operators like ‘+’ i.e. left + right. I have evaluate() function for the representation of the mathematical formulas. I used '+', '-', '*', '/', '^', 'sin', 'cos', 'tan', 'sigmoid', 'exp', 'log', 'sqrt', 'inv' for mathematical calculations. I tried to handle inf, Nan, and very large values here properly. For example, in the below function, 1000 is used for not dealing with large fitness values for my algorithm. It is an optimization for my algorithm.    
+
+elif self.value == 'exp':
+
+              return np.exp(left) if np.all(left < 1000) else float('inf')
+I used count_nodes() function for applying a penalty to the fitness function as a complexity. __str__ function is just for to see the tree as an string. 
+My main algorithm is Genetic Programming which is an Evolutionary Algorithm variant. In addition to the Genetic Programming, I used Simulated Annealing for better exploration. I used 0.9 as a cooling rate for Simulated Annealing to train faster. Higher cooling rate means slower training. I prefer to continue with Modern Genetic Programming. I used tree structure for representation, recombination for exchange of elements, steady-state model as a population model, roulette wheel(fitness proportional) selection for parent selection, and function with the best fitness value(the lowest MSE) is used for deterministic survivor selection. Firstly, I used mutation with low probabilities, but I realized that it did not bring me any better result, so in the end I decided not to use mutation. Roulette wheel parent selection is used for decreasing selective pressure. Also, I added a penalty as a complexity(number of used node) to the MSE value while calculating fitness. For evolving, I am initializing my population with random tree. Firstly, I am taking care of using all rows of the x_train. Because I need x[0], x[1],.. at least once in my funciton as you can see below.
+
+![alt text](image.png)
+
+ After generating these variables once, I’m generating these variables again or random constants as you can see below 
+
+![alt text](image-1.png)
+
+Then, I am starting evolving generations for generation in range(self.num_gen). For each generation, I’m taking half of the population used for parent selection. Then parents go crossover to construct offspring. After that offspring's fitness values compete with the parents’ fitness values to select a survivor. This is a steady-state population model actually. If the offspring's fitness value is lower than the population’s best fitness value offspring is the survivor(best_individual). I am saving the best individual coming from parent or offspring to the population instead of the oldest individual for not losing the best individual with the best fitness value. Also, I’m adding 50 new individuals for each generation to increase diversity, and this method gave me better results than mutation. Finally, I  wrote best_individuals with the best fitness values(lowest MSE) to the s328174.py.
+
 **Results**
 
 
