@@ -8,11 +8,11 @@ elif self.value == 'exp':
 I used count_nodes() function for applying a penalty to the fitness function as a complexity. __str__ function is just for to see the tree as an string. 
 My main algorithm is Genetic Programming which is an Evolutionary Algorithm variant. In addition to the Genetic Programming, I used Simulated Annealing for better exploration. I used 0.9 as a cooling rate for Simulated Annealing to train faster. Higher cooling rate means slower training. I prefer to continue with Modern Genetic Programming. I used tree structure for representation, recombination for exchange of elements, steady-state model as a population model, roulette wheel(fitness proportional) selection for parent selection, and function with the best fitness value(the lowest MSE) is used for deterministic survivor selection. Firstly, I used mutation with low probabilities, but I realized that it did not bring me any better result, so in the end I decided not to use mutation. Roulette wheel parent selection is used for decreasing selective pressure. Also, I added a penalty as a complexity(number of used node) to the MSE value while calculating fitness. For evolving, I am initializing my population with random tree. Firstly, I am taking care of using all rows of the x_train. Because I need x[0], x[1],.. at least once in my funciton as you can see below.
 
-![alt text](image.png)
+![image](https://github.com/user-attachments/assets/51197bf3-5b19-40b4-aba7-3ec56953c174)
 
  After generating these variables once, I’m generating these variables again or random constants as you can see below 
 
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/7392e1a9-3033-40fe-ac38-ca64d4610573)
 
 Then, I am starting evolving generations for generation in range(self.num_gen). For each generation, I’m taking half of the population used for parent selection. Then parents go crossover to construct offspring. After that offspring's fitness values compete with the parents’ fitness values to select a survivor. This is a steady-state population model actually. If the offspring's fitness value is lower than the population’s best fitness value offspring is the survivor(best_individual). I am saving the best individual coming from parent or offspring to the population instead of the oldest individual for not losing the best individual with the best fitness value. Also, I’m adding 50 new individuals for each generation to increase diversity, and this method gave me better results than mutation. Finally, I  wrote best_individuals with the best fitness values(lowest MSE) to the s328174.py.
 
